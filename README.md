@@ -1,50 +1,123 @@
-# React + TypeScript + Vite
+# Empty Vite — Стартовый шаблон для React проектов
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Готовый шаблон для быстрого старта новых проектов на React + TypeScript + Vite с предварительно настроенными инструментами разработки.
 
-Currently, two official plugins are available:
+## 🚀 Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** — библиотека для создания пользовательских интерфейсов
+- **TypeScript** — типизированный JavaScript
+- **Vite** — быстрый сборщик и dev-сервер
+- **SWC** — компилятор для ускорения сборки
+- **ESLint** — линтер для JavaScript/TypeScript с правилами для React
+- **Prettier** — форматировщик кода
+- **Stylelint** — линтер для CSS/SCSS
+- **SCSS** — препроцессор CSS
 
-## Expanding the ESLint configuration
+## 📋 Что включено
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- ✅ Настроенный TypeScript с разделением конфигураций для приложения и Node.js
+- ✅ ESLint с правилами для React, TypeScript, Prettier и автоматической сортировкой импортов
+- ✅ Stylelint для проверки стилей
+- ✅ Vite Plugin Checker для проверки типов и линтинга в реальном времени
+- ✅ Базовая структура проекта с папкой `app`
+- ✅ SCSS с примерами переменных и normalize стилей
+- ✅ Готовые npm-скрипты для разработки, сборки и проверки кода
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Использование
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Быстрое создание проекта с помощью degit
+
+Рекомендуемый способ — использовать утилиту [degit](https://www.npmjs.com/package/degit) для клонирования шаблона без истории git:
+
+```bash
+# Если шаблон в GitHub репозитории
+npx degit username/empty-vite my-new-project
+cd my-new-project
+npm install
+
+# Если используете локальный шаблон
+npx degit ./path/to/empty-vite my-new-project
+cd my-new-project
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+После этого обновите название проекта в `package.json`.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Копирование шаблона вручную
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+1. Скопируйте всю папку проекта в новое место
+2. Переименуйте папку проекта
+3. Откройте `package.json` и измените поле `name` на название вашего проекта
+4. Установите зависимости:
+   ```bash
+   npm install
+   ```
+
+### Запуск проекта
+
+```bash
+# Запуск dev-сервера (откроется на http://localhost:5173)
+npm run dev
+
+# Сборка для production
+npm run build
+
+# Предпросмотр production сборки
+npm run preview
+
+# Проверка кода линтером
+npm run lint
 ```
+
+## 📁 Структура проекта
+
+```
+empty-vite/
+├── public/              # Статические файлы
+├── src/
+│   ├── app/            # Основное приложение
+│   │   ├── App.tsx     # Главный компонент
+│   │   ├── App.scss    # Стили компонента
+│   │   ├── index.ts    # Экспорт компонента
+│   │   └── styles/     # Глобальные стили
+│   │       ├── normalize.scss
+│   │       └── variables.scss
+│   ├── main.tsx        # Точка входа приложения
+│   └── vite-env.d.ts   # Типы для Vite
+├── dist/               # Собранный проект (генерируется автоматически)
+├── eslint.config.js    # Конфигурация ESLint
+├── vite.config.ts      # Конфигурация Vite
+├── tsconfig.json       # Основная конфигурация TypeScript
+├── tsconfig.app.json   # Конфигурация TypeScript для приложения
+└── tsconfig.node.json  # Конфигурация TypeScript для Node.js
+```
+
+## ⚙️ Настройки
+
+### Vite
+
+- Dev-сервер автоматически открывается в браузере на порту `5173`
+- Включена проверка TypeScript, ESLint и Stylelint в реальном времени
+
+### ESLint
+
+- Правила для React и React Hooks
+- Автоматическая сортировка импортов
+- Интеграция с Prettier
+- Проверка неиспользуемых переменных
+
+### TypeScript
+
+- Строгий режим включен
+- Раздельные конфигурации для приложения и инструментов сборки
+
+## 📝 Рекомендации
+
+1. После копирования шаблона обновите название проекта в `package.json`
+2. Настройте переменные в `src/app/styles/variables.scss` под ваш дизайн
+3. Добавьте свои компоненты в папку `src/app` или создайте отдельные папки для компонентов, страниц и т.д.
+4. При необходимости настройте правила ESLint в `eslint.config.js`
+
+## 📄 Лицензия
+
+Этот шаблон предназначен для личного использования. Используйте его как основу для своих проектов.
