@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { HomePage } from "@/pages/home";
 
-import "./App.scss";
+import "./styles/index.scss";
 
-export const App: FC = () => {
-  return <div className="app">App</div>;
-};
+export function App() {
+  return <HomePage />;
+}

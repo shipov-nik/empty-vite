@@ -1,9 +1,19 @@
-import react from "@vitejs/plugin-react-swc";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@": path.resolve(dirname, "./src"),
+    },
+  },
   server: { open: true, port: 5173 },
   plugins: [
     react(),
