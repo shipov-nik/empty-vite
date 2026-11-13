@@ -1,6 +1,6 @@
 # Empty Vite — Стартовый шаблон для React проектов
 
-Готовый шаблон для быстрого старта новых проектов на React + TypeScript + Vite с архитектурой Feature-Sliced Design и предварительно настроенными инструментами разработки.
+Готовый шаблон для быстрого старта новых проектов на React + TypeScript + Vite с минимальной структурой и предварительно настроенными инструментами разработки.
 
 ## Технологии
 
@@ -8,7 +8,6 @@
 - **TypeScript** — типизированный JavaScript
 - **Vite** — быстрый сборщик и dev-сервер
 - **Oxc** — быстрая трансформация React через `@vitejs/plugin-react` (Rolldown/Vite 8)
-- **Feature-Sliced Design** — архитектура по слоям и сегментам
 - **ESLint** — линтер для JavaScript/TypeScript с правилами для React
 - **Prettier** — форматировщик кода
 - **Stylelint** — линтер для CSS/SCSS
@@ -18,12 +17,13 @@
 ## Что включено
 
 - Настроенный TypeScript с разделением конфигураций для приложения и Node.js
-- Feature-Sliced Design: слои `app`, `pages`, `widgets`, `features`, `entities`, `shared`
+- Минимальная структура: `app` для сборки приложения и глобальных стилей, `pages` для страниц
 - Path alias `@/` → `src/`
-- ESLint с правилами для React, TypeScript, Prettier, FSD-архитектуры и сортировкой импортов по слоям
+- ESLint с правилами для React, TypeScript и сортировкой импортов
+- Prettier для отдельной проверки и форматирования кода
 - Stylelint для проверки стилей
 - Vite Plugin Checker для проверки типов и линтинга в реальном времени
-- SCSS с переменными и normalize-стилями
+- SCSS со сбросом браузерных стилей
 - CSS Modules (`.module.scss`) для стилей компонентов
 - Полный набор npm-скриптов для разработки, сборки и проверки кода
 
@@ -92,69 +92,29 @@ npm run format
 npm run format:check
 ```
 
-## Структура проекта (FSD)
+## Структура проекта
 
 ```
 empty-vite/
 ├── src/
-│   ├── app/                 # Инициализация приложения, провайдеры, глобальные стили
+│   ├── app/                 # Сборка приложения и глобальные стили
 │   │   ├── App.tsx
-│   │   ├── index.ts         # Public API слоя
+│   │   ├── index.ts         # Экспорт App
 │   │   └── styles/
 │   │       ├── index.scss
-│   │       ├── normalize.scss
-│   │       └── variables.scss
-│   ├── pages/               # Страницы — композиция виджетов и фич
+│   │       └── reset.scss
+│   ├── pages/               # Страницы приложения
 │   │   └── home/
-│   │       ├── ui/
-│   │       │   ├── HomePage.tsx
-│   │       │   ├── HomePage.module.scss
-│   │       │   └── index.ts     # Public API сегмента ui
-│   │       └── index.ts         # Public API слайса
-│   ├── widgets/             # Самостоятельные блоки UI
-│   ├── features/            # Пользовательские сценарии и действия
-│   ├── entities/            # Бизнес-сущности
-│   ├── shared/              # Переиспользуемый код: ui, lib, api, config
-│   ├── main.tsx             # Точка входа
-│   └── vite-env.d.ts
+│   │       ├── HomePage.tsx
+│   │       ├── HomePage.module.scss
+│   │       └── index.ts     # Экспорт HomePage
+│   └── main.tsx             # Точка входа
 ├── dist/                    # Собранный проект (генерируется автоматически)
 ├── eslint.config.js
 ├── vite.config.ts
 ├── tsconfig.json
 ├── tsconfig.app.json
 └── tsconfig.node.json
-```
-
-### Слои FSD (снизу вверх)
-
-| Слой | Назначение |
-|------|------------|
-| `shared` | UI-kit, утилиты, API-клиент, конфигурация |
-| `entities` | Бизнес-сущности (User, Product и т.д.) |
-| `features` | Действия пользователя (авторизация, добавление в корзину) |
-| `widgets` | Композитные блоки страницы (хедер, сайдбар) |
-| `pages` | Полноценные страницы |
-| `app` | Роутинг, провайдеры, глобальные стили |
-
-Слой может импортировать только из слоёв **ниже** себя. Например, `pages` может использовать `widgets`, `features`, `entities` и `shared`, но не наоборот.
-
-### Public API
-
-Каждый слайс и сегмент экспортирует наружу только через `index.ts`. Импорты из других слоёв — только через Public API слайса:
-
-```ts
-import { HomePage } from "@/pages/home";
-import { App } from "@/app";
-```
-
-Реэкспорт внутри слайса — через Public API сегмента, а не напрямую в файлы:
-
-```ts
-// pages/home/index.ts
-export { HomePage } from "./ui";
-
-// pages/home/ui/index.ts
-export { HomePage } from "./HomePage";
 ```
 
 ## Path aliases
@@ -170,7 +130,7 @@ import { HomePage } from "@/pages/home";
 
 ### Стили
 
-- **Глобальные стили** — обычные `.scss` в `src/app/styles/` (normalize, CSS-переменные)
+- **Глобальные стили** — обычные `.scss` в `src/app/styles/` (сброс браузерных стилей, CSS-переменные)
 - **Стили компонентов** — CSS Modules: файлы `*.module.scss` рядом с компонентом
 - **Именование классов** — короткие имена внутри модуля (`.root`, `.title`); изоляция обеспечивается CSS Modules
 
@@ -208,12 +168,10 @@ export function HomePage() {
 
 ### ESLint
 
-- Правила для React и React Hooks
-- **FSD-архитектура** (`@feature-sliced/eslint-config`):
-  - `boundaries/element-types` — запрет импортов «вверх» по слоям (pages → features → entities → shared)
-  - `import/no-internal-modules` — импорт только через Public API слайсов и сегментов
-- Сортировка импортов по FSD-слоям
-- Интеграция с Prettier
+- Правила для TypeScript и React Hooks
+- Сортировка импортов: React, внешние пакеты, внутренние модули через `@/`, относительные импорты, стили
+- Правила, конфликтующие с Prettier, отключены; форматирование проверяется через `npm run format:check`
+- Раздельные глобальные переменные для браузерного кода и конфигураций Node.js
 - Проверка неиспользуемых переменных
 
 ### TypeScript
@@ -221,15 +179,15 @@ export function HomePage() {
 - Строгий режим включён
 - Target ES2022, `verbatimModuleSyntax`
 - Раздельные конфигурации для приложения и инструментов сборки
+- Типы Vite и SCSS Modules подключены через `types: ["vite/client"]`
+- Кэш проверки типов хранится в `node_modules/.tmp/`
 
 ## Рекомендации
 
 1. После копирования шаблона обновите название проекта в `package.json`
-2. Настройте переменные в `src/app/styles/variables.scss` под ваш дизайн
-3. Новые страницы добавляйте в `src/pages/`, фичи — в `src/features/`, сущности — в `src/entities/`
-4. Переиспользуемые компоненты и утилиты — в `src/shared/`
-5. Соблюдайте Public API: экспортируйте из сегмента только через `index.ts`
-6. При необходимости настройте правила ESLint в `eslint.config.js`
+2. Глобальные стили настраивайте в `src/app/styles/`
+3. Новые страницы добавляйте в `src/pages/`, стили компонентов размещайте рядом с ними
+4. При необходимости настройте правила ESLint в `eslint.config.js`
 
 ## Лицензия
 

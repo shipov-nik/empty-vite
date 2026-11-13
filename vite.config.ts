@@ -18,7 +18,7 @@ export default defineConfig({
   plugins: [
     react(),
     checker({
-      typescript: { tsconfigPath: "tsconfig.json" },
+      typescript: { tsconfigPath: "tsconfig.json", buildMode: true },
       stylelint: { lintCommand: 'stylelint "./src/**/*.{css,scss}"' },
       eslint: {
         useFlatConfig: true,

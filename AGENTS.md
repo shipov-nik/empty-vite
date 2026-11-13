@@ -1,25 +1,21 @@
 # Инструкции для AI-агентов
 
-Проект использует **Feature-Sliced Design (FSD)**. Архитектура, слои, сегменты, Public API и правила размещения кода — по skill [feature-sliced-design](https://www.skills.sh/feature-sliced/skills/feature-sliced-design). Не дублируй FSD-правила здесь и не расходись с skill.
-
-Ниже — только соглашения **этого** проекта.
-
 ## Стек и границы
 
 - Код приложения — в `src/` (кроме конфигов в корне). Папки `src/components/` нет.
 - Алиас: `@/` → `src/`.
-- Импорты из других слайсов — только через Public API (`index.ts`), с алиасом `@/`.
-- ESLint (`@feature-sliced/eslint-config`) проверяет направление импортов между слоями.
+- `src/app/` — сборка приложения и глобальные стили.
+- `src/pages/` — страницы; компоненты и их стили лежат рядом в папке страницы.
 
 ## Именование
 
-| Элемент | Конвенция | Пример |
-|---------|-----------|--------|
-| Папка слайса | `kebab-case` | `add-to-cart`, `user-profile` |
-| React-компонент | `PascalCase` | `AddToCartButton`, `UserCard` |
-| Хуки | `camelCase` с `use` | `useAddToCart`, `useUserData` |
-| Утилиты | `camelCase` | `formatPrice`, `parseDate` |
-| SCSS-модуль | Рядом с компонентом | `HomePage.module.scss` |
+| Элемент         | Конвенция           | Пример                        |
+| --------------- | ------------------- | ----------------------------- |
+| Папка страницы  | `kebab-case`        | `home`, `user-profile`        |
+| React-компонент | `PascalCase`        | `AddToCartButton`, `UserCard` |
+| Хуки            | `camelCase` с `use` | `useAddToCart`, `useUserData` |
+| Утилиты         | `camelCase`         | `formatPrice`, `parseDate`    |
+| SCSS-модуль     | Рядом с компонентом | `HomePage.module.scss`        |
 
 Имя компонента совпадает с именем файла: `HomePage.tsx` → `export function HomePage`.
 
@@ -50,7 +46,7 @@ export function HomePage() {
 
 1. `react`
 2. Внешние пакеты
-3. FSD-слои снизу вверх: `@/shared` → `@/entities` → `@/features` → `@/widgets` → `@/pages` → `@/app`
+3. Внутренние импорты через `@/`
 4. Относительные импорты (`./`, `../`)
 5. Стили (`.scss`, `.module.scss`)
 
@@ -63,7 +59,7 @@ export function HomePage() {
 - Строгий TypeScript: не используй `any` без веской причины.
 - `useCallback` / `useMemo` — только при реальной необходимости.
 - Не добавляй комментарии к очевидному коду.
-- В Public API экспортируй явно — без `export *`.
+- В `index.ts` экспортируй явно — без `export *`.
 
 ## Чего не делать
 
@@ -77,6 +73,7 @@ export function HomePage() {
 npm run typecheck
 npm run lint
 npm run lint:style
+npm run format:check
 ```
 
 Исправь все ошибки перед завершением задачи.
