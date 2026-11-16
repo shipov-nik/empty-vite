@@ -45,6 +45,7 @@
     "vite-plugin-checker": "^0.14.5"
   },
   "overrides": {
+    "minimatch": "^11.0.8",
     "stylelint-order": "^8.1.3"
   }
 }
