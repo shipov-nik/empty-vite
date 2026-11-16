@@ -5,7 +5,7 @@ import globals from "globals";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReactRefresh from "eslint-plugin-react-refresh";
 import configPrettier from "eslint-config-prettier";
-import pluginImport from "eslint-plugin-import";
+import pluginImport from "eslint-plugin-import-x";
 
 export default defineConfig(
   { ignores: ["dist", "node_modules"] },
@@ -13,10 +13,10 @@ export default defineConfig(
     files: ["**/*.{ts,tsx}"],
     extends: [eslint.configs.recommended, tseslint.configs.recommended],
     plugins: {
-      import: pluginImport,
+      "import-x": pluginImport,
     },
     settings: {
-      "import/resolver": {
+      "import-x/resolver": {
         typescript: {
           alwaysTryTypes: true,
         },
@@ -25,7 +25,7 @@ export default defineConfig(
     rules: {
       "prefer-const": "error",
       "@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
-      "import/order": [
+      "import-x/order": [
         "error",
         {
           groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
